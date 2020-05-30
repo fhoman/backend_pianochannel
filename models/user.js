@@ -4,23 +4,27 @@ const Schema   = mongoose.Schema;
 const userSchema = new Schema({
     username: String,
     password: String,
-    campus: {
+    name:String,
+    surname:String,
+    facebookID: String,  
+    role: {
       type: String,
-      enum: ["Madrid", "Barcelona", "Miami", "Paris", "Berlin", "Amsterdam", "México"," Sao Paulo", "Lisbon"]
-    },
-    course: {
-      type: String,
-      enum: ["Web Dev", "UX/UI", "Data Analytics"]
-    }, 
-    name: { type: String, required: false, default:null},
-    description: { type: String, required: false,default:null },
-    imageUrl: { type: String, required: false,default:null },
+      enum: ["USER", "ADMIN"]
+    },     
+    confirmed:false,
+    number: { type: Number, required: false, default:null},  
+    videos: [{ 
+      type: Schema.ObjectId, 
+      ref: 'Videos' }]
   }, {
     timestamps: {
       createdAt: 'created_at',
       updatedAt: 'updated_at'
     }
   });
+
+
+
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

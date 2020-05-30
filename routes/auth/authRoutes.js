@@ -9,15 +9,17 @@ const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 
 authRoutes.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
+  console.log(req.body.username)
+  
+  passport.authenticate('local', (err, user, next) => {    
+    if (err) {      
       return next(err);
     }
     if (!user) {
-      return res.status(401).json({ error: 'user not authenticatdd' });
+      return res.status(401).json({ error: 'user not authenticated' });
     }
-    req.logIn(user, function (err) {
-      if (err) {
+    req.logIn(user, (err) => {
+      if (err) {     
         return next(err);
       }
       return res.status(200).json({ message: 'User logged' });
@@ -35,8 +37,7 @@ authRoutes.get('/loggedin', (req, res) => {
 
 authRoutes.post('/signup', (req, res, next) => {
 
-
-  const { username, password, campus, course } = req.body;
+  const { username, password, number } = req.body;
   
   console.log('user details',req.body);
   if (!username || !password) {
@@ -72,22 +73,33 @@ authRoutes.post('/signup', (req, res, next) => {
   });
 });
 
-authRoutes.post('/profile', (req, res) => {
+// Facebook login routes
 
-  if (!req.isAuthenticated()) {
-    res.status(403).json({ message: 'please authenticate' });
-    return;
-  }
+authRoutes.post("/facebook", passport.authenticate("facebook"),(req,res,next) =>{
 
-User.findById(req.user.id)
-.then(response => {
-  console.log(response)
-  res.status(200).json({ response });
-})
-.catch(err => console.log(err))
+console.log(req.body)
+
 });
 
 
+authRoutes.post("/facebook/callback",
+    passport.authenticate("facebook"),
+    (req, res) => {
+        res.redirect("/profile");
+    });
+
+
+//authRoutes.route('/auth/google')
+//    .post(passport.authenticate('google-token', {session: false}), function(req, res, next) {
+//        if (!req.user) {
+//            return res.send(401, 'User Not Authenticated');
+//        }
+ //       req.auth = {
+ //           id: req.user.id
+//        };
+//
+//        next();
+//    }, generateToken, sendToken);
 
 
 

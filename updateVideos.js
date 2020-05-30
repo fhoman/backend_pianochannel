@@ -1,10 +1,9 @@
 const axios = require('axios')
 require('dotenv').config();
 // Models declarations
-const Videos = require("./models/videos");
+const Videos = require("./models/video");
 
-// const URL = `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=UUOD7OMAr2-yEhrk2iX9cU6w&key=AIzaSyCi_U7_eRbNh2RhAZnLwcn3hEudfdRL99E&part=snippet&maxResults=50`
-    
+// 
  
 const getUrl = (pagetoken) => {
      var pt = (typeof pagetoken === "undefined") ? "" :`&pageToken=${pagetoken}`,
@@ -14,7 +13,7 @@ const getUrl = (pagetoken) => {
   return URL;
 }
 
-
+// Check if there are new videos in the YouTube Channel
 const updateVideos = (npt) => {
   axios.get(getUrl(npt))
   .then(response => {  
@@ -24,6 +23,8 @@ Videos.findOne({ id: element.id })
     if (video !== null) {
           return;
     }
+
+// Add the new videos to the database
 Videos.create(element)  
 .then(response => console.log(response))
 .catch(err => console.log(err))    
