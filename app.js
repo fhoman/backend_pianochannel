@@ -10,11 +10,10 @@ const session      = require("express-session");
 const cors         = require("cors");
 const Mongostore   = require("connect-mongo")(session);
 const flash      = require("connect-flash");
-const FacebookStrategy = require('passport-facebook').Strategy;
-const User          = require('../backend-pianochannel/models/user');
+const User          = require('./models/user');
 
 mongoose
-  .connect('mongodb://localhost/backendPianoChannel', {useNewUrlParser: true,useUnifiedTopology: true})
+  .connect(process.env.MONGODB_URI, {useNewUrlParser: true,useUnifiedTopology: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -22,27 +21,8 @@ mongoose
     console.error('Error connecting to mongo', err)
   });
 
-  let user = {};
-
-  passport.serializeUser((user, cb) => {
-      cb(null, user);
-  });
   
-  passport.deserializeUser((user, cb) => {
-      cb(null, user);
-  });
 
-// Facebook Strategy
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_CLIENT_ID,
-  clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-  callbackURL: "/api/auth/facebook/callback"
-},
-(accessToken, refreshToken, profile, cb) => {
-  
-  user = { ...profile };
-  return cb(null, profile);
-}));
 
 
 const app = express();
@@ -64,7 +44,7 @@ app.use(passport.session());
 
 // Enable authentication using session + passport
 app.use(session({
-  secret: process.env.API_KEY,
+  secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,
   store: new Mongostore( { mongooseConnection: mongoose.connection })
@@ -101,6 +81,11 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.json('error mededeling');
+});
+
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 module.exports = app;
