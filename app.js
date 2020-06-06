@@ -26,8 +26,12 @@ mongoose
 
 
 const app = express();
-app.use(cors());
-app.use(passport.initialize());
+// Middleware Setup
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  credentials: true
+}))
+
 
 
 
@@ -40,17 +44,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(passport.session());
 
 // Enable authentication using session + passport
 app.use(session({
-  secret: process.env.SECRET,
+  secret: 'irongenerator',
   resave: true,
   saveUninitialized: true,
   store: new Mongostore( { mongooseConnection: mongoose.connection })
 }))
-
-
+app.use(flash());
+require('./passport')(app);
 
 
 const index = require('./routes/index');

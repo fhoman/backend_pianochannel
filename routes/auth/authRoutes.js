@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 
 authRoutes.post('/login', (req, res, next) => {
-  console.log(req.body.username)
+  console.log(req.body)
   
   passport.authenticate('local', (err, user, next) => {    
     if (err) {      
@@ -22,9 +22,13 @@ authRoutes.post('/login', (req, res, next) => {
       if (err) {     
         return next(err);
       }
-      return res.status(200).json({ message: 'User logged' });
+      return res.status(200).json(user);
     });
   })(req, res, next);
+
+
+
+
 });
 
 authRoutes.get('/loggedin', (req, res) => {
@@ -73,37 +77,12 @@ authRoutes.post('/signup', (req, res, next) => {
   });
 });
 
-// Facebook login routes
-
-authRoutes.post("/facebook", passport.authenticate("facebook"),(req,res,next) =>{
-
-console.log(req.body)
-
-});
-
-
-authRoutes.post("/facebook/callback",
-    passport.authenticate("facebook"),
-    (req, res) => {
-        res.redirect("/profile");
-    });
-
-
-//authRoutes.route('/auth/google')
-//    .post(passport.authenticate('google-token', {session: false}), function(req, res, next) {
-//        if (!req.user) {
-//            return res.send(401, 'User Not Authenticated');
-//        }
- //       req.auth = {
- //           id: req.user.id
-//        };
-//
-//        next();
-//    }, generateToken, sendToken);
 
 
 
-authRoutes.get('/logout', (req, res) => {
+
+authRoutes.post('/logout', (req, res) => {
+  console.log('logout')
   req.logout();
   res.status(200).json({ message: 'OK' });
 });
