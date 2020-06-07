@@ -9,8 +9,8 @@ const mailNewUser = require("../../mailservices/mailNewUser")
 // Add a new user by administrator and send a e-mail with link for signup
 
 adminRoutes.post('/mail-user', (req, res, next) => {   
-
-  mailNewUser('fhoman@gmail.com')
+console.log(req.body.email)
+  mailNewUser(req.body.email)
     
   });
 
