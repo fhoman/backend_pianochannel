@@ -6,10 +6,15 @@ const userSchema = new Schema({
     password: String,
     name:String,
     surname:String,
-    facebookID: String,  
+    image:{
+      type:String,
+      default:'https://www.pianolessenamsterdam.nl/wp-content/uploads/2017/12/Piano-leren-spelen.jpg' 
+    },
+    bio: {type:String,default:'No bio yet'},
     role: {
       type: String,
-      enum: ["USER", "ADMIN"]
+      enum: ["USER", "ADMIN"],
+      default: 'USER'
     },     
     confirmed:false,
     number: { type: Number, required: false, default:null},  

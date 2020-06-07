@@ -3,35 +3,15 @@ const adminRoutes  = express.Router();
 const updateVideos = require('../../updateVideos')
 const Videos = require("../../models/video");
 const User = require("../../models/user");
+const mailNewUser = require("../../mailservices/mailNewUser")
 
 
 // Add a new user by administrator and send a e-mail with link for signup
 
-adminRoutes.post('/add-user', (req, res, next) => {   
-    const { username,role } = req.body;    
-    console.log('user details',req.body);
-    if (!username) {
-      res.status(401).json({ message: 'Indicate username' });
-      return;
-    }  
-    User.findOne({ username }, 'username', (err, user) => {
-      if (user !== null) {
-        res.status(409).json({ message: 'The username already exists' });   
-        return;
-      }       
-      const newUser = new User({
-        username,     
-        role    
-      });  
-      newUser
-        .save()
-        .then((user) => {
-          res.status(200).json({ message: 'User created' });         
-        })
-        .catch((err) => {
-          res.status(404).json({ message: 'Something went wrong' });     
-        });
-    });
+adminRoutes.post('/mail-user', (req, res, next) => {   
+
+  mailNewUser('fhoman@gmail.com')
+    
   });
 
 // Add a student to the list
@@ -67,7 +47,7 @@ adminRoutes.post('/students',(req,res,next) => {
 // Show all videos in the admin view
 
 adminRoutes.post('/videos',(req,res,next) => {
-Videos.find()
+Videos.find().populate('users')
 .then(videos => res.json(videos))
 .catch(err => console.log(err))
 })

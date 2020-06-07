@@ -41,11 +41,11 @@ authRoutes.get('/loggedin', (req, res) => {
 
 authRoutes.post('/signup', (req, res, next) => {
 
-  const { username, password, number } = req.body;
+  const { username, password, name,surname,number } = req.body;
   
   console.log('user details',req.body);
-  if (!username || !password) {
-    res.status(401).json({ message: 'Indicate username and password' });
+  if (!username || !password || !number || !name || !surname) {
+    res.status(401).json({ message: 'Please fill in al the required fields' });
     return;
   }
 
@@ -61,7 +61,10 @@ authRoutes.post('/signup', (req, res, next) => {
 
     const newUser = new User({
       username,
-      password: hashPass      
+      password: hashPass,
+      number,
+      name,
+      surname     
     });
 
     newUser

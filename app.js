@@ -66,7 +66,7 @@ const adminRouter = require('./routes/admin/adminRoutes');
 app.use('/api/admin',adminRouter);
 
 const userRouter = require('./routes/user/userRoutes');
-app.use('/api/profile',userRouter);
+app.use('/api/user',userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
