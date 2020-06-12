@@ -13,7 +13,7 @@ function mailNewUser(email) {
         },
       });
 
-      const URL = `http://localhost:3000/signup?mail=${email}`
+      const URL = process.env.MAIL_URL_SIGNUP+email
       // send mail with defined transport object
       let mailOptions = transporter.sendMail({
         from: "Pianolessen Amsterdam <pianolessenamsterdam.nl>",

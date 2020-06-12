@@ -20,7 +20,7 @@ console.log(user)
         },
       });
 
-      const URL = `http://localhost:3000/myprofile/${username}`
+      const URL = process.env.MAIL_URL_VIDEO+username
       // send mail with defined transport object
       let mailOptions = transporter.sendMail({
         from: "Pianolessen Amsterdam <pianolessenamsterdam.nl>",
