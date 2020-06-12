@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 
 authRoutes.post('/login', (req, res, next) => {
-  console.log(req.body)
+  
   
   passport.authenticate('local', (err, user, next) => {    
     if (err) {      
@@ -26,23 +26,25 @@ authRoutes.post('/login', (req, res, next) => {
     });
   })(req, res, next);
 
-
-
-
 });
 
-authRoutes.get('/loggedin', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.status(200).json({ message: 'User logged~' });
-    return;
+authRoutes.get('/isLoggedIn', (req, res) => {
+
+  console.log('isloggendin route')
+  if(req.isAuthenticated()) {
+    console.log('line 35',req.user)
+    User.findById(req.user)
+    .then(response => {
+      console.log(response)
+      res.status(200).json(req.user)
+    })   
+    return
   }
-  res.status(403).json({ message: 'please authenticate' });
+  res.status(403).json({message: 'please authenticate'})
 });
 
 authRoutes.post('/signup', (req, res, next) => {
-
-  const { username, password} = req.body;
-  
+  const { username, password} = req.body;  
   console.log('user details',req.body);
   if (!username || !password ) {
     res.status(401).json({ message: 'Please fill in al the required fields' });
