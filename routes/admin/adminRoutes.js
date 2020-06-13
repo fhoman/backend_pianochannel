@@ -5,6 +5,8 @@ const Videos = require("../../models/video");
 const User = require("../../models/user");
 const mailNewUser = require("../../mailservices/mailNewUser")
 const mailNewVideo = require("../../mailservices/mailNewVideo")
+const whatsAppUser = require("../../mailservices/whatsappVideo")
+
 
 // Invite a new user by administrator and send a e-mail with link for signup
 
@@ -120,8 +122,10 @@ taggedStudentsArr.forEach(element => {
 User.find({username:element})
 .then(user => {
   if (user[0].emailnotifications) {
-
       mailNewVideo(user[0],videoID)
+  }
+  if (user[0].whatsappnotifications){
+      whatsAppUser(user[0],videoID)
   }
 }
   )
