@@ -15,7 +15,7 @@ console.log(user)
       let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "fhoman@gmail.com", // generated ethereal user
+          user: "pianolessenamsterdamnl@gmail.com", // generated ethereal user
           pass: process.env.GMAIL, // generated ethereal password
         },
       });
@@ -23,7 +23,7 @@ console.log(user)
       const URL = process.env.MAIL_URL_VIDEO+username
       // send mail with defined transport object
       let mailOptions = transporter.sendMail({
-        from: "Pianolessen Amsterdam <pianolessenamsterdam.nl>",
+        from: "Pianolessen Amsterdam <pianolessenamsterdamnl@gmail.com>",
         to: `Student <${username}>`, 
         subject: "You got a new video on Pianolessen Amsterdam", 
         text: ``, 

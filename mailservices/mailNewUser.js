@@ -8,7 +8,7 @@ function mailNewUser(email) {
       let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "fhoman@gmail.com", // generated ethereal user
+          user: "pianolessenamsterdamnl@gmail.com", // generated ethereal user
           pass: process.env.GMAIL, // generated ethereal password
         },
       });
@@ -16,9 +16,9 @@ function mailNewUser(email) {
       const URL = process.env.MAIL_URL_SIGNUP+email
       // send mail with defined transport object
       let mailOptions = transporter.sendMail({
-        from: "Pianolessen Amsterdam <pianolessenamsterdam.nl>",
+        from: "Pianolessen Amsterdam <pianolessenamsterdamnl@gmail.com>",
         to: `Student <${email}>`, 
-        subject: "Sign up for an account at Pianolessen Amsterdam", 
+        subject: "Sign up for an account on Pianolessen Amsterdam", 
         text: ``, 
         html: `           
         
@@ -313,7 +313,7 @@ function mailNewUser(email) {
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+            <span class="preheader">Join up and open an account on Pianolessen Amsterdam</span>
            
         <div width='600' class='header-logo'>    <img src='https://www.pianolessenamsterdam.nl/wp-content/uploads/2017/08/PianolessenAmsterdam.png' width="200" height='100' height:auto'></div>
             <table class="main">

@@ -9,6 +9,7 @@ const mailNewVideo = require("../../mailservices/mailNewVideo")
 // Invite a new user by administrator and send a e-mail with link for signup
 
 adminRoutes.post('/mail-user', (req, res, next) => {   
+  console.log(req.body.email)
   mailNewUser(req.body.email)    
   });
 
