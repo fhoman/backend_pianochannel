@@ -11,7 +11,7 @@ const whatsAppUser = require("../../mailservices/whatsappVideo")
 // Invite a new user by administrator and send a e-mail with link for signup
 
 adminRoutes.post('/mail-user', (req, res, next) => {   
-  console.log(req.body.email)
+ 
   mailNewUser(req.body.email)    
   });
 
@@ -65,12 +65,12 @@ adminRoutes.post('/video',(req,res,next) => {
 
 // Tag a selected video and add it to a user video array and a video user array
 adminRoutes.post('/tagvideo',(req,res,next) => {
-  console.log(req.body)
+
 const {videoID,username} = req.body
 
 User.find({username})
 .then(userID => {  
-   console.log(userID)
+ 
 const userUpdate = User.findOneAndUpdate(
     { username },
     { $addToSet: { videos:videoID } },{useFindAndModify:false,returnNewDocument:true}) 
@@ -119,12 +119,13 @@ adminRoutes.post('/send-notification',(req,res,next) => {
   const {taggedStudentsArr,videoID} = req.body
 // Get array with ID's students and ID video
 taggedStudentsArr.forEach(element => {
-User.find({username:element})
+User.find({username:element.username})
 .then(user => {
   if (user[0].emailnotifications) {
       mailNewVideo(user[0],videoID)
   }
   if (user[0].whatsappnotifications){
+    console.log('whatsapp')
       whatsAppUser(user[0],videoID)
   }
 }
@@ -132,11 +133,6 @@ User.find({username:element})
 .catch(err => console.log(err))
   
 });
-
-// Loop over array and send them a e-mail if notification is true
-
-
-// Trigger email function for every student and pass the email, the Video details and the profile page
 
 
   })

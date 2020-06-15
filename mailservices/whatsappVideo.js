@@ -1,16 +1,18 @@
 const client = require('twilio')();
-console.log(client)
+
 
 function whatsAppUser(user,videoID) {
 
-console.log(user)
-console.log(videoID)
   
+console.log('whatsappUser',user)
+console.log('Whatsappvideo',videoID)
+  const URL = `https://pianolessenamsterdam.herokuapp.com/students/${user.username}`
 
   client.messages.create({
     from: 'whatsapp:+14155238886',
-    body: `Hi, ${user.name}. The video ${videoID.snippet.title} was uploaded on Pianolessen Amsterdam. Check it out on your profile page`,
-    to: 'whatsapp:+31641462562'
+    body: `Hi, ${user.name}. The video ${videoID.snippet.title} was uploaded 
+    on Pianolessen Amsterdam. Check it out on your profile page on ${URL}`,
+    to: `whatsapp:+31${user.number}`
   }).then(message => console.log(message.sid))
   .catch(err => console.log(err))
   ;
