@@ -28,6 +28,7 @@ Videos.find()
 // Show all students in the admin view
 
 adminRoutes.post('/students',(req,res,next) => {
+  updateVideos()
   User.find()
   .then(user => res.json(user))
   .catch(err => console.log(err))
