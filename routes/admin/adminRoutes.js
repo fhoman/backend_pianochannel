@@ -127,16 +127,19 @@ User.find({username:element.username})
   if (user[0].whatsappnotifications){
     console.log('whatsapp')
       whatsAppUser(user[0],videoID)
-  }
-}
+  }}
   )
-.catch(err => console.log(err))
-  
+.catch(err => console.log(err))  
 });
-
-
   })
 
-
+  adminRoutes.post('/delete-user',(req,res,next) => { 
+    console.log(req.body)
+    User.findOneAndDelete({_id:req.body.userID})
+    .then(() => User.find()
+    .then(users => res.json(users))
+    )
+    .catch(err => console.log(err))
+    })
 
 module.exports = adminRoutes

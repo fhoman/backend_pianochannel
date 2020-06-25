@@ -20,7 +20,7 @@ console.log(user)
         },
       });
 
-      const URL = process.env.MAIL_URL_VIDEO+username
+      const URL = process.env.MAIL_URL_VIDEO
       // send mail with defined transport object
       let mailOptions = transporter.sendMail({
         from: "Pianolessen Amsterdam <pianolessenamsterdamnl@gmail.com>",
