@@ -24,9 +24,9 @@ userRoutes.post('/profile-student',(req,res,next) => {
 userRoutes.post('/update-profile-student',(req,res,next) => {
             
     const {username,name,surname,number,bio,emailnotifications,whatsappnotifications} = req.body
-    console.log('body',req.body)
+    console.log('body',req.body.id)
 
-    User.updateOne({username},{name,surname,bio,number,emailnotifications,whatsappnotifications})
+    User.updateOne({_id:req.body.id},{username,name,surname,bio,number,emailnotifications,whatsappnotifications})
     .then(response => console.log(response))
     .catch(err => console.log(err))
             

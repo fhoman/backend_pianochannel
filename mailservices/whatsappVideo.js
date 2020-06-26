@@ -3,9 +3,14 @@ const client = require('twilio')();
 
 function whatsAppUser(user,videoID) {
 
+  if (!user.name) {
+
+    user.name = 'student'
   
-console.log('whatsappUser',user)
-console.log('Whatsappvideo',videoID)
+   }
+
+  
+
   const URL = `https://pianolessenamsterdam.herokuapp.com/students/${user.username}`
 
   client.messages.create({
